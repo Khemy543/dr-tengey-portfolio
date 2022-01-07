@@ -3600,3 +3600,10 @@ input:-internal-autofill-selected {
   left: -40px;
   border-radius: 4px 0px 0px 4px;
 }
+
+.logo-title {
+  color: white;
+  font-weight: bolder;
+  font-size: 30px;
+  font-family: 'Licorice', cursive;
+}

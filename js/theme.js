@@ -217,6 +217,11 @@ $(".portfolio-filter").each(function() {
 			layoutMode: "masonry",
 			originLeft: rtlVal
 		});
+	
+	$grid.isotope({
+		filter: '.books'
+	}), !1
+	
 	$(".portfolio-menu").find("a").on("click", function() {
         var filterValue = $(this).attr("data-filter");
         return $(".portfolio-menu").find("a").removeClass("active"), $(this).addClass("active"), 
