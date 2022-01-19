@@ -20,15 +20,15 @@ require './phpmailer/src/SMTP.php';
   // Receiver's Email
 --------------------------------------------- */
 
-$toEmail = "your-email@website.com"; // Replace Your Email Address
+$toEmail = 'hagioswilson@gmail.com';// "sam@samaueltengey.com"; // Replace Your Email Address
 
 
 /* --------------------------------------------
   // Sender's Email
 --------------------------------------------- */
 
-$fromEmail = "no-reply@website.com";  // Replace Company's Email Address (preferably currently used Domain Name)
-$fromName = "Company Name"; // Replace Company Name
+$fromEmail = "no-reply@samaueltengey.com";  // Replace Company's Email Address (preferably currently used Domain Name)
+$fromName = "Samuel Tengey"; // Replace Company Name
 
 
 /* --------------------------------------------
@@ -42,7 +42,7 @@ $recaptcha_secret = 'YOUR_RECAPTCHA_SECRET_KEY'; // Your Google reCaptcha Secret
 /* --------------------------------------------
   // Subject
 --------------------------------------------- */
-$subject = "Form Response from Your Website"; // Your Subject
+$subject = "Mail from Your Website"; // Your Subject
 
 
 if (isset($_POST['name'])) {
@@ -93,53 +93,53 @@ if (filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
 	/*-------------------------------------------------
 		reCaptcha
 	---------------------------------------------------*/
-	$message = array(
-		'recaptcha_invalid' => 'Captcha not Validated! Please Try Again!',
-		'recaptcha_error' => 'Captcha not Submitted! Please Try Again.'
-	);
-	$message_form = !empty($_POST['message']) ? $_POST['message'] : array();
-	$message['recaptcha_invalid'] = !empty($message_form['recaptcha_invalid']) ? $message_form['recaptcha_invalid'] : $message['recaptcha_invalid'];
-	$message['recaptcha_error'] = !empty($message_form['recaptcha_error']) ? $message_form['recaptcha_error'] : $message['recaptcha_error'];
+	// $message = array(
+	// 	'recaptcha_invalid' => 'Captcha not Validated! Please Try Again!',
+	// 	'recaptcha_error' => 'Captcha not Submitted! Please Try Again.'
+	// );
+	// $message_form = !empty($_POST['message']) ? $_POST['message'] : array();
+	// $message['recaptcha_invalid'] = !empty($message_form['recaptcha_invalid']) ? $message_form['recaptcha_invalid'] : $message['recaptcha_invalid'];
+	// $message['recaptcha_error'] = !empty($message_form['recaptcha_error']) ? $message_form['recaptcha_error'] : $message['recaptcha_error'];
 
-	if (isset($_POST['g-recaptcha-response'])) {
-		$recaptcha_data = array(
-			'secret' => $recaptcha_secret,
-			'response' => $_POST['g-recaptcha-response']
-		);
+	// if (isset($_POST['g-recaptcha-response'])) {
+	// 	$recaptcha_data = array(
+	// 		'secret' => $recaptcha_secret,
+	// 		'response' => $_POST['g-recaptcha-response']
+	// 	);
 
-		$recap_verify = curl_init();
-		curl_setopt($recap_verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
-		curl_setopt($recap_verify, CURLOPT_POST, true);
-		curl_setopt($recap_verify, CURLOPT_POSTFIELDS, http_build_query($recaptcha_data));
-		curl_setopt($recap_verify, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($recap_verify, CURLOPT_RETURNTRANSFER, true);
-		$recap_response = curl_exec($recap_verify);
-		$g_response = json_decode($recap_response);
+	// 	$recap_verify = curl_init();
+	// 	curl_setopt($recap_verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+	// 	curl_setopt($recap_verify, CURLOPT_POST, true);
+	// 	curl_setopt($recap_verify, CURLOPT_POSTFIELDS, http_build_query($recaptcha_data));
+	// 	curl_setopt($recap_verify, CURLOPT_SSL_VERIFYPEER, false);
+	// 	curl_setopt($recap_verify, CURLOPT_RETURNTRANSFER, true);
+	// 	$recap_response = curl_exec($recap_verify);
+	// 	$g_response = json_decode($recap_response);
 
-		if ($g_response->success !== true) {
-			echo json_encode(array('response' => 'error', 'Message' => '<div class="alert alert-danger alert-dismissible fade show text-start"><i class="fa fa-times-circle"></i> ' . $message['recaptcha_invalid'] . '<button type="button" class="btn-close text-1 mt-1" data-bs-dismiss="alert"></button></div>'));
-			exit;
-		}
-		if ($g_response->score <= 0.5) {
-			echo json_encode(array('response' => 'error', 'Message' => '<div class="alert alert-danger alert-dismissible fade show text-start"><i class="fa fa-times-circle"></i> ' . $message['recaptcha_invalid'] . '<button type="button" class="btn-close text-1 mt-1" data-bs-dismiss="alert"></button></div>'));
-			exit;
-		}
-	}
+	// 	if ($g_response->success !== true) {
+	// 		echo json_encode(array('response' => 'error', 'Message' => '<div class="alert alert-danger alert-dismissible fade show text-start"><i class="fa fa-times-circle"></i> ' . $message['recaptcha_invalid'] . '<button type="button" class="btn-close text-1 mt-1" data-bs-dismiss="alert"></button></div>'));
+	// 		exit;
+	// 	}
+	// 	if ($g_response->score <= 0.5) {
+	// 		echo json_encode(array('response' => 'error', 'Message' => '<div class="alert alert-danger alert-dismissible fade show text-start"><i class="fa fa-times-circle"></i> ' . $message['recaptcha_invalid'] . '<button type="button" class="btn-close text-1 mt-1" data-bs-dismiss="alert"></button></div>'));
+	// 		exit;
+	// 	}
+	// }
 
-	$forcerecap = (!empty($_POST['force_recaptcha']) && $_POST['force_recaptcha'] != 'false' ) ? true : false;
-	if (isset($g_response->action) && $g_response->action == 'contact') {
-		if (isset($g_response->success) && $g_response->success == true && $g_response->action == 'contact') {
+	// $forcerecap = (!empty($_POST['force_recaptcha']) && $_POST['force_recaptcha'] != 'false' ) ? true : false;
+	// if (isset($g_response->action) && $g_response->action == 'contact') {
+	// 	if (isset($g_response->success) && $g_response->success == true && $g_response->action == 'contact') {
 			
-		} else if ($forcerecap) {
-			if (!isset($_POST['g-recaptcha-response'])) {
-				echo json_encode(array('response' => 'error', 'Message' => '<div class="alert alert-danger alert-dismissible fade show text-start"><i class="fa fa-exclamation-triangle me-1"></i> ' . $message['recaptcha_error'] . '<button type="button" class="btn-close text-1 mt-1" data-bs-dismiss="alert"></button></div>'));
-				exit;
-			}
-		} else {
-			echo json_encode(array('response' => 'error', 'Message' => '<div class="alert alert-danger alert-dismissible fade show text-start"><i class="fa fa-exclamation-triangle me-1"></i> ' . $message['recaptcha_error'] . '<button type="button" class="btn-close text-1 mt-1" data-bs-dismiss="alert"></button></div>'));
-			exit;
-		}
-	}
+	// 	} else if ($forcerecap) {
+	// 		if (!isset($_POST['g-recaptcha-response'])) {
+	// 			echo json_encode(array('response' => 'error', 'Message' => '<div class="alert alert-danger alert-dismissible fade show text-start"><i class="fa fa-exclamation-triangle me-1"></i> ' . $message['recaptcha_error'] . '<button type="button" class="btn-close text-1 mt-1" data-bs-dismiss="alert"></button></div>'));
+	// 			exit;
+	// 		}
+	// 	} else {
+	// 		echo json_encode(array('response' => 'error', 'Message' => '<div class="alert alert-danger alert-dismissible fade show text-start"><i class="fa fa-exclamation-triangle me-1"></i> ' . $message['recaptcha_error'] . '<button type="button" class="btn-close text-1 mt-1" data-bs-dismiss="alert"></button></div>'));
+	// 		exit;
+	// 	}
+	// }
 	//----- reCaptcha End -----//
 
 	$success = "Thank you for contacting us and will be in touch with you very soon."; // Success Message
