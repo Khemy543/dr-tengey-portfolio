@@ -1075,10 +1075,20 @@
     if (name && email && message) {
       const data = { name, email, message}
 
+      const headers = {
+        accept: 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
+
       $.ajax({
         url: 'https://online-course-backend.herokuapp.com/api/send/stengey/mail',
-        // method: 'POST',
-        data
+        method: 'POST',
+        cache: false,
+        dataType: "json",
+        async: true,
+        crossDomain: true,
+        data,
+        headers
       }).done((response) => {
         console.log(response)
       });
