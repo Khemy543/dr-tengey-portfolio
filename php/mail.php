@@ -32,20 +32,14 @@ $fromName = "Samuel Tengey"; // Replace Company Name
 
 
 /* --------------------------------------------
-  // reCaptcha Secret
-  --------------------------------------------- */
-
-// Add this only if you want to use Google reCaptcha with your Contact Forms.
-$recaptcha_secret = 'YOUR_RECAPTCHA_SECRET_KEY'; // Your Google reCaptcha Secret
-
-
-/* --------------------------------------------
   // Subject
 --------------------------------------------- */
 $subject = "Mail from Your Website"; // Your Subject
 
 
 if (isset($_POST['name'])) {
+
+	// die(json_encode($_POST));
 
 /*-------------------------------------------------
 	PHPMailer Initialization

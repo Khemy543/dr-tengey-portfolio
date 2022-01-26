@@ -917,18 +917,18 @@
             </ul>
           </div>
           <div class="col-md-6 col-xl-7 order-0 order-md-1">
-            <h2 class="mb-3 text-5 text-uppercase text-center text-md-start">Send us a note</h2>
-			<form id="contact-form" action="php/mail.php" method="post">
+            <h2 class="mb-3 text-5 text-uppercase text-center text-md-start">Send me a note</h2>
+			<form method="post">
               
 			  <div class="row g-4">
                 <div class="col-xl-6">
-                    <input name="name" type="text" class="form-control" required placeholder="Name">
+                    <input name="name" id="name" type="text" class="form-control" required placeholder="Name">
                 </div>
                 <div class="col-xl-6">
-                    <input name="email" type="email" class="form-control" required placeholder="Email">
+                    <input name="email" id="email" type="email" class="form-control" required placeholder="Email">
                 </div>
 				<div class="col">
-					<textarea name="form-message" class="form-control" rows="5" required placeholder="Tell us more about your needs........"></textarea>
+					<textarea name="form-message" id="form-message" class="form-control" rows="5" required placeholder="Tell us more about your needs........"></textarea>
 				</div>
               </div>
 			  
@@ -973,7 +973,7 @@
 
 <!-- Terms & Policy Modal
 ================================== -->
-<div id="terms-policy" class="modal fade" role="dialog" aria-hidden="true">
+<!-- <div id="terms-policy" class="modal fade" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -1004,12 +1004,12 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <!-- Terms & Policy Modal End --> 
 
 <!-- Disclaimer Modal
 ================================== -->
-<div id="disclaimer" class="modal fade" role="dialog" aria-hidden="true">
+<!-- <div id="disclaimer" class="modal fade" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -1030,8 +1030,10 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <!-- Disclaimer Modal End -->
+
+
 
 <!-- JavaScript --> 
 <script src="vendor/jquery/jquery.min.js"></script> 
@@ -1056,5 +1058,33 @@
 <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script> 
 <!-- Custom Script --> 
 <script src="js/theme.js"></script>
+
+<script>
+
+  $('#submit-btn').click(function(e){
+    e.preventDefault()
+
+    sendMail()
+  })
+
+  function sendMail() {
+    const name = $('#name').val()
+    const email = $('#email').val()
+    const message = $('#form-message').val()
+
+    if (name && email && message) {
+      const data = { name, email, message}
+
+      $.ajax({
+        url: 'http://127.0.0.1:8001/api/send/stengey/mail',
+        method: 'POST',
+        data
+      }).done((response) => {
+        console.log(response)
+      });
+    }
+  }
+    
+</script>
 </body>
 </html>
