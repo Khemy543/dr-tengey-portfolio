@@ -1076,7 +1076,7 @@
       const data = { name, email, message}
 
       $.ajax({
-        url: 'http://127.0.0.1:8001/api/send/stengey/mail',
+        url: 'https://online-course-backend.herokuapp.com/api/send/stengey/mail',
         method: 'POST',
         data
       }).done((response) => {
