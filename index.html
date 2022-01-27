@@ -918,22 +918,24 @@
           </div>
           <div class="col-md-6 col-xl-7 order-0 order-md-1">
             <h2 class="mb-3 text-5 text-uppercase text-center text-md-start">Send me a note</h2>
-			<form method="post">
+            <div id="success-alert" style="display: none;" class="alert alert-success alert-dismissible fade show text-start"><i class="fa fa-check-circle"></i>Thank you for contacting us and will be in touch with you very soon.<button type="button" class="btn-close text-1 mt-1" data-bs-dismiss="alert"></button></div>
+			      <div id="error-alert" style="display: none;" class="alert alert-danger alert-dismissible fade show text-start"><i class="fa fa-exclamation-triangle me-1"></i> Whoops! something went wrong<button type="button" class="btn-close text-1 mt-1" data-bs-dismiss="alert"></button></div>
+            <form method="post">
               
-			  <div class="row g-4">
+			        <div class="row g-4">
                 <div class="col-xl-6">
                     <input name="name" id="name" type="text" class="form-control" required placeholder="Name">
                 </div>
                 <div class="col-xl-6">
-                    <input name="email" id="email" type="email" class="form-control" required placeholder="Email">
+                      <input name="email" id="email" type="email" class="form-control" required placeholder="Email">
                 </div>
-				<div class="col">
-					<textarea name="form-message" id="form-message" class="form-control" rows="5" required placeholder="Tell us more about your needs........"></textarea>
-				</div>
+                <div class="col">
+                  <textarea name="form-message" id="form-message" class="form-control" rows="5" required placeholder="Tell us more about your needs........"></textarea>
+                </div>
               </div>
 			  
               <p class="text-center mt-4 mb-0">
-				<button id="submit-btn" class="btn btn-primary rounded-pill d-inline-flex" type="submit">Send Message</button>
+				        <button id="submit-btn" class="btn btn-primary rounded-pill d-inline-flex" type="submit">Send Message</button>
               </p>
             </form>
           </div>
@@ -1072,6 +1074,18 @@
     const email = $('#email').val()
     const message = $('#form-message').val()
 
+    if (!name) {
+      displayError('Name is required')
+    }
+
+    if (!email) {
+      displayError('Email is required')
+    }
+
+    if (!message) {
+      displayError('Message is required')
+    }
+
     if (name && email && message) {
       const data = { name, email, message}
 
@@ -1090,8 +1104,26 @@
         data,
         headers
       }).done((response) => {
-        console.log(response)
+
+        if (response.status === 'mail sent') {
+          $('#name').val('')
+          $('#email').val('')
+          $('#form-message').val('')
+
+          $('#success-alert').show()
+          $('#success-alert').fadeOut(4000)
+        
+        } else {
+          displayError('Whoops! something went wrong')
+        }
+
       });
+    }
+
+    function displayError(err) {
+        $('#error-alert').html(err)
+        $('#error-alert').show()
+        $('#error-alert').fadeOut(4000)
     }
   }
 </script>
